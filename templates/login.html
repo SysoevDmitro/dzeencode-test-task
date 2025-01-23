@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+<h1>Login</h1>
+
+<!-- Форма для ввода логина и пароля -->
+<form id="login-form" method="POST" action="/user/token/">
+    {% csrf_token %}
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+
+    <button type="submit">Login</button>
+</form>
+
+<!-- Вывод ошибок, если они есть -->
+{% if form.errors %}
+    <ul class="errors">
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<p>Don't have an account? <a href="/user/register/">Register here</a></p>
+
+
+{% endblock %}

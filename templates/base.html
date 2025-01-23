@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Project{% endblock %}</title>
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+
+    <main>
+    <header>
+<nav>
+      <a href="/api/comments/">Comments</a>
+    {% if user.id %}
+      <a href="#" id="logout-link">Logout</a>
+
+    {% else %}
+      <a href="/user/register/">Register</a>
+        <a href="/user/login/">Login</a>
+    {% endif %}
+</nav>
+    </header>
+        {% block content %}{% endblock %}
+    </main>
+
+<script>
+  document.getElementById("logout-link").addEventListener("click", function (e) {
+    e.preventDefault(); // Предотвращаем переход по ссылке
+    fetch("/user/logout/", {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}", // Добавляем CSRF-токен
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        window.location.href = "/user/login/"; // Перенаправляем на страницу логина
+      } else {
+        alert("Logout failed");
+      }
+    });
+  });
+</script>
+</body>
+</html>

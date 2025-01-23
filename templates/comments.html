@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block title %}Comments{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+<h1>Comments</h1>
+<div>
+<form method="POST" action="/api/comments/" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if user.id %}
+        <input type="hidden" id="username" name="username" value="{{ user }}">
+        <input type="hidden" id="email" name="email" value="{{ user.email }}">
+    {% else %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+    {% endif %}
+
+    <label for="text">Comment:</label>
+    <div class="toolbar">
+        <button type="button" onclick="insertTag('i')">[i]</button>
+        <button type="button" onclick="insertTag('strong')">[strong]</button>
+        <button type="button" onclick="insertTag('code')">[code]</button>
+        <button type="button" onclick="insertTag('a', true)">[a]</button>
+    </div>
+
+    <textarea id="text" name="text" required></textarea>
+    <button type="button" id="preview-button">Preview</button>
+    <button type="button" id="remove-preview-button" style="display: none;">Remove preview</button>
+    <br>
+
+    <div id="preview-container" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+        <div id="preview"></div>
+    </div>
+
+    <label for="file">File:</label>
+    <input type="file" id="file" name="file">
+    {% if form.file.errors %}
+        <div class="error" style="color: red">
+            {{ form.file.errors|join:", " }}
+        </div>
+    {% endif %}
+    <br>
+
+    <button type="submit">Submit</button>
+</form>
+
+
+</div>
+
+<div class="sort-buttons">
+    <button class="btn-sort" data-field="username" data-order="asc">Sort by Username (▼)</button>
+    <button class="btn-sort" data-field="email" data-order="asc">Sort by Email(▼)</button>
+    <button class="btn-sort" data-field="created_at" data-order="asc">Sort by Date(▼)</button>
+</div>
+
+<div id="comments-container">
+    {% for comment in comments %}
+    <div class="comment">
+        <div class="comment-text">
+    <p><strong>{{ comment.username }},</strong> <small>{{ comment.created_at }}</small></p>
+    <p>{{ comment.text|safe }} </p>
+
+
+        {% if comment.file %}
+            {% if comment.file_type == 'image' %}
+                <img src="{{ comment.file.url }}" alt="Image" style="max-width: 320px; max-height: 240px;">
+            {% elif comment.file_type == 'text' %}
+                <pre class="comment-text">{{ comment.file.read }}</pre>
+            {% else %}
+                <a href="{{ comment.file.url }}" target="_blank">Download File</a>
+            {% endif %}
+        {% endif %}
+
+        </div>
+    </div>
+
+{% endfor %}
+</div>
+  <script>
+    document.getElementById("preview-button").addEventListener("click", function () {
+        const textArea = document.getElementById("text");
+        const previewContainer = document.getElementById("preview-container");
+        const preview = document.getElementById("preview");
+        const removeButton = document.getElementById("remove-preview-button");
+
+        // Очищаем текст и сохраняем разрешённые теги
+        const input = textArea.value;
+        const allowedTags = ['<strong>', '<i>', '<code>', '<a>'];
+        const sanitizedInput = input
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/&lt;(\/?(strong|i|code|a))&gt;/g, "<$1>");
+
+        // Показываем предпросмотр
+        preview.innerHTML = sanitizedInput;
+        previewContainer.style.display = "block";
+        removeButton.style.display = "inline-block";
+    });
+
+    document.getElementById("remove-preview-button").addEventListener("click", function () {
+        const previewContainer = document.getElementById("preview-container");
+        const removeButton = document.getElementById("remove-preview-button");
+
+        // Убираем предпросмотр
+        previewContainer.style.display = "none";
+        removeButton.style.display = "none";
+    });
+</script>
+
+<script>
+    // Функция для вставки тегов
+    function insertTag(tag, isLink = false) {
+        const textarea = document.getElementById('text');
+        const startTag = `<${tag}>`;
+        const endTag = `</${tag}>`;
+        const linkText = 'Click here';
+        const selectionStart = textarea.selectionStart;
+        const selectionEnd = textarea.selectionEnd;
+        const selectedText = textarea.value.substring(selectionStart, selectionEnd);
+
+        let wrappedText;
+        if (isLink) {
+            const url = prompt('Enter URL:', 'https://');
+            if (!url) return;
+            wrappedText = `<a href="${url}">${selectedText || linkText}</a>`;
+        } else {
+            wrappedText = startTag + (selectedText || '') + endTag;
+        }
+
+        // Вставляем тег в текст
+        textarea.value =
+            textarea.value.substring(0, selectionStart) +
+            wrappedText +
+            textarea.value.substring(selectionEnd);
+
+        // Сохраняем выделение
+        textarea.focus();
+        textarea.selectionStart = selectionEnd + wrappedText.length;
+        textarea.selectionEnd = textarea.selectionStart;
+    }
+</script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".btn-sort");
+
+    // Получаем текущие параметры из URL
+    const currentUrl = new URL(window.location.href);
+    const currentSortBy = currentUrl.searchParams.get("sort_by") || "created_at";
+    const currentOrder = currentUrl.searchParams.get("order") || "asc";
+
+    // Устанавливаем активное состояние кнопок при загрузке
+    buttons.forEach(button => {
+        const field = button.getAttribute("data-field");
+
+        // Если поле соответствует текущему, обновляем текст и атрибуты
+        if (field === currentSortBy) {
+            const newSymbol = currentOrder === "asc" ? "▲" : "▼";
+            button.textContent = `Sort by ${capitalize(field)} (${newSymbol})`;
+            button.setAttribute("data-order", currentOrder);
+        }
+    });
+
+    // Добавляем обработчики событий для изменения сортировки
+    buttons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            // Получаем параметры сортировки
+            const field = button.getAttribute("data-field");
+            const currentOrder = button.getAttribute("data-order");
+            const newOrder = currentOrder === "asc" ? "desc" : "asc";
+
+            // Обновляем текст кнопки
+            const newSymbol = newOrder === "asc" ? "▲" : "▼";
+            button.textContent = `Sort by ${capitalize(field)} (${newSymbol})`;
+            button.setAttribute("data-order", newOrder);
+
+            // Перенаправляем на новый URL
+            currentUrl.searchParams.set("sort_by", field);
+            currentUrl.searchParams.set("order", newOrder);
+            window.location.href = currentUrl.toString();
+        });
+    });
+
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+});
+
+</script>
+  
+{% endblock %}

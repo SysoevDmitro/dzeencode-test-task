@@ -1,10 +1,11 @@
 from django.urls import path
 
 
-from .views import CommentListCreateView
+from .views import CommentListCreateView, index
 
 app_name = "comments"
 
 urlpatterns = [
-    path("comments/", CommentListCreateView.as_view(), name="comments-list-create")
+    path('', index, name="index"),
+    path("api/comments/", CommentListCreateView.as_view(), name="comments"),
 ]

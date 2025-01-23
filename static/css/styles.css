@@ -1,0 +1,219 @@
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Центрируем содержимое по горизонтали */
+}
+
+header {
+    background-color: #000000;
+    color: #fff;
+    padding: 10px;
+    text-align: center; /* Центрирует текст внутри header */
+    display: flex;
+    justify-content: center; /* Центрирует элементы по горизонтали */
+    align-items: center; /* Центрирует элементы по вертикали */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+header nav {
+    display: flex;
+}
+
+header nav a {
+    color: #fff;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+
+form {
+    max-width: 400px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+form label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    color: #333;
+}
+
+form input[type="text"],
+form input[type="email"],
+form textarea {
+    width: 95%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form textarea:focus {
+    border-color: #333;
+    outline: none;
+}
+
+form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+form button {
+    background-color: #333;
+    color: #fff;
+    padding: 12px 20px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #555;
+}
+
+form img {
+    margin-top: 10px;
+    display: block;
+    max-width: 150px;
+}
+
+
+        .comment {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .comment-header strong {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .comment-header small {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .comment-body {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .comment-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .comment-footer a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .comment-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .comment-header .username {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .comment-content {
+            margin-top: 10px;
+        }
+
+.sort-buttons {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.sort-buttons .btn-sort {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    margin-right: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.sort-buttons .btn-sort:hover {
+    background-color: #555;
+}
+
+.comment-text {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    width: 99%;           /* Ширина блока будет 100% от родительского элемента */
+    max-width: 600px;      /* Ограничиваем максимальную ширину блока */
+    word-wrap: break-word; /* Перенос слов, если они длинные */
+    white-space: normal;   /* Разрешаем перенос строк */
+}
+
+.toolbar {
+        margin-bottom: 10px; /* Расстояние от панели до текстового поля */
+    }
+
+    .toolbar button {
+        color: black;
+        font-size: 12px;         /* Уменьшаем размер текста */
+        padding: 2px 6px;        /* Компактные отступы */
+        margin-right: 4px;       /* Расстояние между кнопками */
+        border: 1px solid #ccc;  /* Легкая граница */
+        border-radius: 3px;      /* Скругленные углы */
+        background-color: #f9f9f9; /* Светлый фон */
+        cursor: pointer;         /* Указатель мыши при наведении */
+        transition: background-color 0.3s; /* Плавный эффект */
+    }
+
+    .toolbar button:hover {
+        background-color: #e6e6e6; /* Более тёмный фон при наведении */
+    }
+
+    .toolbar button:active {
+        background-color: #d9d9d9; /* Ещё темнее при нажатии */
+    }
