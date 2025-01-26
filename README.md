@@ -35,8 +35,8 @@ This project is a Django-based RESTful API for managing comments. The API allows
    ```
 2. **Create a Virtual Environment:**
    ```
-   python -m venv env
-   source env/bin/activate
+   python -m venv venv
+   source venv/bin/activate
    ```
 3. **Install Dependencies:**
    ```
