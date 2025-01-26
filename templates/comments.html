@@ -4,7 +4,7 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
+<link rel="">
 <h1>Comments</h1>
 <div>
 <form method="POST" action="/api/comments/" enctype="multipart/form-data">
@@ -31,7 +31,7 @@
         <button type="button" onclick="insertTag('a', true)">[a]</button>
     </div>
 
-    <textarea id="text" name="text" required></textarea>
+    <textarea id="text" name="text" required>{{ form_data.text }}</textarea>
     <button type="button" id="preview-button">Preview</button>
     <button type="button" id="remove-preview-button" style="display: none;">Remove preview</button>
     <br>
@@ -48,7 +48,12 @@
         </div>
     {% endif %}
     <br>
-
+{{ form.captcha_field }}
+{% if form_errors %}
+  {% for error in form_errors %}
+<p style="color: red">{{ error }}</p>
+  {% endfor %}
+{% endif %}
     <button type="submit">Submit</button>
 </form>
 
@@ -84,6 +89,17 @@
 
 {% endfor %}
 </div>
+
+  <div class="pagination">
+  {% if comments.has_previous %}
+    <a href="?page={{ comments.previous_page_number }}">Previous</a>
+  {% endif %}
+  <span>Page {{ comments.number }} of {{ comments.paginator.num_pages }}</span>
+  {% if comments.has_next %}
+    <a href="?page={{ comments.next_page_number }}">Next</a>
+  {% endif %}
+</div>
+
   <script>
     document.getElementById("preview-button").addEventListener("click", function () {
         const textArea = document.getElementById("text");

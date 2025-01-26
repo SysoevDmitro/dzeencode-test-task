@@ -7,5 +7,5 @@ app_name = "comments"
 
 urlpatterns = [
     path('', index, name="index"),
-    path("api/comments/", CommentListCreateView.as_view(), name="comments"),
+    path("comments/", CommentListCreateView.as_view(), name="comments"),
 ]

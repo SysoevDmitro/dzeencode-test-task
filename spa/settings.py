@@ -50,10 +50,13 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "comments",
     "user",
+    "captcha",
 ]
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -130,6 +133,12 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
+CAPTCHA_IMAGE_SIZE = (150, 50)
+CAPTCHA_FONT_SIZE = 30
+CAPTCHA_LENGTH = 6
+CAPTCHA_TIMEOUT = 300
 
 
 # Static files (CSS, JavaScript, Images)
