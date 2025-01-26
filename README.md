@@ -61,9 +61,13 @@ This project is a Django-based RESTful API for managing comments. The API allows
    ```
    docker-compose up --build
    ```
+7. **Go to Website**
+   ```
+   http://localhost:8000/api/comments/ 
+   ```
 
 ### Documentation
 - Go to `/api/doc/swagger/` to test api
-  - Register with `/user/register/`
-  - Receive token `/user/token/`
-  - Create comment `/api/comments/`
+- Register with `/user/register/`
+- Receive token `/user/token/`
+- Create comment `/api/comments/`
