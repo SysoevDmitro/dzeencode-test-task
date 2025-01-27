@@ -95,18 +95,17 @@ WSGI_APPLICATION = 'spa.wsgi.application'
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-if DATABASE_URL:
-    result = urlparse(DATABASE_URL)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': result.path[1:],
-            'USER': result.username,
-            'PASSWORD': result.password,
-            'HOST': result.hostname,
-            'PORT': result.port,
-        }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "server",
+        'USER': "user",
+        'PASSWORD': "password",
+        'HOST': "db",
+        'PORT': "5432",
     }
+}
 
 
 # Password validation
