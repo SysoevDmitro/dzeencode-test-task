@@ -13,26 +13,42 @@ services:
       sh -c "python manage.py wait_for_db &&
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
+<<<<<<< HEAD
     environment:
       - DB_NAME=railway
       - DB_USER=postgres
       - DB_PASSWORD=dLbqOZRNYbgidLxJsliXGAcNEvTnsLgJ
       - DB_HOST=postgres.railway.internal
       - DB_PORT=5432
+=======
+    env_file:
+      - .env_sample
+>>>>>>> a346597cf19cffb1525e5db9dd622aa4f2a442fe
     depends_on:
       - db
+    networks:
+      - app-network
 
   db:
     image: postgres:14-alpine
     container_name: db
     ports:
       - "5432:5432"
+<<<<<<< HEAD
     environment:
       - POSTGRES_DB=your_db_name
       - POSTGRES_USER=your_db_user
       - POSTGRES_PASSWORD=your_db_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
+=======
+    env_file:
+      - .env_sample
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+>>>>>>> a346597cf19cffb1525e5db9dd622aa4f2a442fe
 
 volumes:
   postgres_data:

@@ -16,6 +16,7 @@ import os
 import dj_database_url
 import dotenv
 
+
 dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = os.environ.get("SECRET_KEY", "12")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", 'dzeencode-test-task-production.up.railway.app']
 
 API_URL = 'http://localhost:8000'
 
@@ -94,6 +95,9 @@ WSGI_APPLICATION = 'spa.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
 
 DATABASES = {
     'default': dj_database_url.config(
