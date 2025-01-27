@@ -95,10 +95,11 @@ WSGI_APPLICATION = 'spa.wsgi.application'
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": "db",
-        "NAME": "server",
-        "USER": "user",
-        "PASSWORD": "password",
+        "HOST": os.environ.get("DB_HOST", "localhost"),
+        "NAME": os.environ.get("DB_NAME", "server"),
+        "USER": os.environ.get("DB_USER", "user"),
+        "PASSWORD": os.environ.get("DB_PASSWORD", "password"),
+        "PORT": os.environ.get("DB_PORT", "5432"),
     }
 }
 
