@@ -99,10 +99,10 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "server",
-        'USER': "user",
-        'PASSWORD': "password",
-        'HOST': "db.railway.app",
+        'NAME': "railway",
+        'USER': "postgres",
+        'PASSWORD': "dLbqOZRNYbgidLxJsliXGAcNEvTnsLgJ",
+        'HOST': "postgres.railway.internal",
         'PORT': "5432",
     }
 }
