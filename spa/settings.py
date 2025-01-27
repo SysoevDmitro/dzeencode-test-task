@@ -102,7 +102,7 @@ DATABASES = {
         'NAME': "server",
         'USER': "user",
         'PASSWORD': "password",
-        'HOST': "db",
+        'HOST': "db.railway.app",
         'PORT': "5432",
     }
 }
