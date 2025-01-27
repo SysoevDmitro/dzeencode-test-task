@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "12")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", 'dzeencode-test-task-production.up.railway.app']
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 API_URL = 'http://localhost:8000'
 
