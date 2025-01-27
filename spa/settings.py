@@ -155,7 +155,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # Директория с пользовательскими статическими файлами
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Директория, куда собираются все статики
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # Директория, куда собираются все статики
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
