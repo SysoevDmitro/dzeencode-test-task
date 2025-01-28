@@ -30,10 +30,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", "12")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "spa-8ut3.onrender.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 API_URL = 'http://localhost:8000'
@@ -102,11 +102,14 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 
 
 DATABASES = {
-    'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://postgres:postgres@localhost:5432/mysite',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'server',
+        'USER': 'user',
+        'PASSWORD': 'password',
+        'HOST': 'db',  # Или 'localhost', если PostgreSQL установлен локально
+        'PORT': '5432',
+    }
 }
 
 
