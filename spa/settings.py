@@ -32,7 +32,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "12")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "spa-8ut3.onrender.com"]
+
 
 API_URL = 'http://localhost:8000'
 
@@ -150,12 +152,15 @@ CAPTCHA_TIMEOUT = 300
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # Директория с пользовательскими статическими файлами
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Директория, куда собираются все статики
 if not DEBUG:
-    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
-    # and renames the files with unique names for each version to support long-term caching
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

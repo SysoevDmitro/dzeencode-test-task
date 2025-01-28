@@ -86,7 +86,11 @@ class CommentListCreateView(generics.ListCreateAPIView):
         form = CommentForm(request.POST, request.FILES)
         response = redirect("/api/comments/")
         if form.is_valid():
-            form.save()
+            comment = form.save(commit=False)
+            parent_id = request.POST.get('parent_id')
+            if parent_id:
+                comment.parent_id = parent_id
+            comment.save()
             return response
 
         # Если форма не валидна
