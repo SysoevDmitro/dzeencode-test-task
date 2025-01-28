@@ -70,35 +70,96 @@
     {% for comment in comments %}
     <div class="comment">
         <div class="comment-text">
-    <p><strong>{{ comment.username }},</strong> <small>{{ comment.created_at }}</small></p>
-    <p>{{ comment.text|safe }} </p>
+            <p><strong>{{ comment.username }},</strong> <small>{{ comment.created_at }}</small></p>
+            <p>{{ comment.text|safe }}</p>
 
-
-        {% if comment.file %}
-            {% if comment.file_type == 'image' %}
-                <img src="{{ comment.file.url }}" alt="Image" style="max-width: 320px; max-height: 240px;">
-            {% elif comment.file_type == 'text' %}
-                <pre class="comment-text">{{ comment.file.read }}</pre>
-            {% else %}
-                <a href="{{ comment.file.url }}" target="_blank">Download File</a>
+            {% if comment.file %}
+                {% if comment.file_type == 'image' %}
+                    <img src="{{ comment.file.url }}" alt="Image" style="max-width: 320px; max-height: 240px;">
+                {% elif comment.file_type == 'text' %}
+                    <pre class="comment-text">{{ comment.file.read }}</pre>
+                {% else %}
+                    <a href="{{ comment.file.url }}" target="_blank">Download File</a>
+                {% endif %}
             {% endif %}
+        </div>
+
+        <!-- Отображение ответов -->
+        {% if comment.replies.exists %}
+          <p><strong>Replies:</strong></p>
+
+
+            <ul>
+                {% for reply in comment.replies.all %}
+                  <div class="comment">
+                <li>
+                    <p><strong> {{ reply.username }},</strong> <small>{{ reply.created_at }}</small></p>
+                    <p>{{ reply.text|safe }}</p>
+
+                    {% if reply.file %}
+                        {% if reply.file_type == 'image' %}
+                            <img src="{{ reply.file.url }}" alt="Image" style="max-width: 320px; max-height: 240px;">
+                        {% elif reply.file_type == 'text' %}
+                            <pre class="reply-text">{{ reply.file.read }}</pre>
+                        {% else %}
+                            <a href="{{ reply.file.url }}" target="_blank">Download File</a>
+                        {% endif %}
+                    {% endif %}
+                </li>
+                          </div>
+                {% endfor %}
+            </ul>
+
         {% endif %}
 
+        <!-- Кнопка и форма для ответа -->
+        <button class="reply-button" data-parent-id="{{ comment.id }}">Ответить</button>
+        <div class="reply-form-container" id="reply-form-{{ comment.id }}" style="display: none;">
+            <form method="POST" action="/api/comments/" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="parent_id" value="{{ comment.id }}">
+
+                {% if user.id %}
+                    <input type="hidden" id="username" name="username" value="{{ user }}">
+                    <input type="hidden" id="email" name="email" value="{{ user.email }}">
+                {% else %}
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                    <br>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <br>
+                {% endif %}
+
+                <label for="text">Reply:</label>
+                <textarea id="text" name="text" required></textarea>
+                <br>
+
+                <label for="file">File:</label>
+                <input type="file" id="file" name="file">
+                <br>
+                {{ form.captcha_field }}
+                <button type="submit">Submit Reply</button>
+            </form>
         </div>
     </div>
-
-{% endfor %}
+    {% endfor %}
 </div>
 
-  <div class="pagination">
-  {% if comments.has_previous %}
-    <a href="?page={{ comments.previous_page_number }}">Previous</a>
-  {% endif %}
-  <span>Page {{ comments.number }} of {{ comments.paginator.num_pages }}</span>
-  {% if comments.has_next %}
-    <a href="?page={{ comments.next_page_number }}">Next</a>
-  {% endif %}
-</div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.reply-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const parentId = this.getAttribute('data-parent-id');
+                const replyForm = document.getElementById(`reply-form-${parentId}`);
+                replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    });
+</script>
+
+
 
   <script>
     document.getElementById("preview-button").addEventListener("click", function () {

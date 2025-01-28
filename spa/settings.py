@@ -32,7 +32,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "12")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "spa-8ut3.onrender.com"]
+
 
 API_URL = 'http://localhost:8000'
 
